@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <a href="{% url 'shop:home'%}">Home</a>|
+    <a href="{% url 'shop:about'%}">About</a>|
+    <a href="{% url 'shop:all_product'%}">All Product</a>|
+    <a href="{% url 'shop:my_cart'%}">My Cart</a>|
+    {% if request.user.customer %}
+        Welcome {{ request.user.username }} |
+        <a href="{% url 'shop:customer_logout' %}">Logout</a> |
+    {% else %}
+        <a href="{% url 'shop:customer_registration' %}">Register</a> |
+        <a href="{% url 'shop:customer_login' %}">Login</a> |
+    {% endif %}
+
+
+
+    {% block content %}
+    {% endblock %}
+
+</html>
