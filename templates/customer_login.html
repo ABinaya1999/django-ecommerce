@@ -17,7 +17,7 @@
                 <li style="color: red;">{{error}}</li>
                 {% endif %}
             </form>
-            <p> No account ? <a href="{% url 'shop:customer_registration'%}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}">Register here</a></p>
+            <p> No account ? <a href="{% url 'customer:customer_registration'%}{% if request.GET.next %}?next={{request.GET.next}}{% endif %}">Register here</a></p>
         </div>
     </div>
 </div>

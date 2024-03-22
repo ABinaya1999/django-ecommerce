@@ -28,7 +28,7 @@
                 <tbody>
                     {% for ord in orders %}
                     <tr>
-                        <td><a href="{% url 'shop:order_details' ord.id%}">{{forloop.counter}}</a></td>
+                        <td><a href="{% url 'customer:order_details' ord.id%}">{{forloop.counter}}</a></td>
                         <td>{{ord.id}}</td>
                         <td>{{ord.total}}</td>
                         <td>{{ord.created_at}}</td>

@@ -47,7 +47,7 @@
                         <th colspan="4" class="text-right">Total:</th>
                         <th>Rs. {{ord_obj.total|intcomma}}/-</th>
                 </tbody>
-                <form action="{% url 'shop:admin_order_status_change' ord_obj.id %}" method="POST">
+                <form action="{% url 'owner:admin_order_status_change' ord_obj.id %}" method="POST">
                     {% csrf_token %}
                     <select name="status">
                         {% for i,j in allstatus %}

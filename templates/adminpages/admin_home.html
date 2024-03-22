@@ -21,7 +21,7 @@
                     {% for i in pending_orders %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td><a href="{% url 'shop:admin_order_detail' i.id%}">#ORDER{{i.id}}</td>
+                        <td><a href="{% url 'owner:admin_order_detail' i.id%}">#ORDER{{i.id}}</td>
                         <td>{{i.ordered_by}}</td>
                         <td>{{i.created_at}}</td>
                         <td>{{i.total}}</td>

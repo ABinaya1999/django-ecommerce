@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'shop'
+    'shop',
+    'customer',
+    'owner'
 ]
 
 MIDDLEWARE = [

@@ -16,13 +16,13 @@
     <a href="{% url 'shop:my_cart'%}">My Cart</a>  |
     {% if request.user.customer %}
         Welcome {{ request.user.customer}} |
-        <a href="{% url 'shop:customer_profile' %}">Profile</a>  |
-        <a href="{% url 'shop:customer_logout' %}">Logout</a>  |
+        <a href="{% url 'customer:customer_profile' %}">Profile</a>  |
+        <a href="{% url 'customer:customer_logout' %}">Logout</a>  |
 
     {% else %}
-        <a href="{% url 'shop:customer_registration' %}">Customer Register</a>  |
-        <a href="{% url 'shop:customer_login' %}"> Customer Login </a>  |
-        <a href="{% url 'shop:admin_login'%}">Admin Login </a>  |
+        <a href="{% url 'customer:customer_registration' %}">Customer Register</a>  |
+        <a href="{% url 'customer:customer_login' %}"> Customer Login </a>  |
+        <a href="{% url 'owner:admin_login'%}">Admin Login </a>  |
 
     {% endif %}
 
