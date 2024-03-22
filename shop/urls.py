@@ -14,7 +14,20 @@ urlpatterns = [
      
     path('checkout/', CheckoutView.as_view(), name="checkout"),
     
+    ###customer####
     path('customer-registration/', CustomerRegistrationView.as_view(), name="customer_registration"),
     path('customer-logout/', CustomerLogoutView.as_view(), name="customer_logout"),
     path('customer-login/', CustomerLoginView.as_view(), name="customer_login"),
+    
+    path('customer-profile/',CustomerProfileView.as_view(), name="customer_profile"),
+    path('customer-profile/order-<int:pk>',OrderDetailsView.as_view(), name="order_details"),
+    
+    ######admin####
+    path('admin-home/', AdminHomeView.as_view(), name="admin_home"),
+    path('admin-login/', AdminLoginView.as_view(), name="admin_login"),
+    path('admin-order/<int:pk>/', AdminOrderDetailView.as_view(), name="admin_order_detail"),
+    
+    path('admin-all-orders/', AdminOrderListView.as_view(), name="admin_order_list"),
+    path('admin-order-<int:pk>-change', AdminOrderStatusChangeView.as_view(), name="admin_order_status_change"),
+    
 ]

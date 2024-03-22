@@ -3,4 +3,4 @@ from .models import *
 # Register your models here.
 
 admin.site.register(
-    [ Customer, Category, Product, Cart, CartProduct, Order])
+    [ Admin,Customer, Category, Product, Cart, CartProduct, Order])

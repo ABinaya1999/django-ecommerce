@@ -3,7 +3,6 @@
 {% block title %}My Cart{% endblock %}
 
 {% block content %}
-{% if cart.cartproduct_set.all%}
 <div class="container">
     
     <div class="row">
@@ -62,11 +61,9 @@
     </div>
 
 </div>
-{% endif %}
 
-{% if cart == None %}
-<h1>Please add items from the <a href="{% url 'shop:home'%}">products</a></h1>
-{% endif %}
+
+
 
 
 {% endblock %}

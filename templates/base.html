@@ -10,18 +10,24 @@
 
 <body>
 
-    <a href="{% url 'shop:home'%}">Home</a>|
-    <a href="{% url 'shop:about'%}">About</a>|
-    <a href="{% url 'shop:all_product'%}">All Product</a>|
-    <a href="{% url 'shop:my_cart'%}">My Cart</a>|
+    <a href="{% url 'shop:home'%}">Home</a>  |
+    <a href="{% url 'shop:about'%}">About</a>  |
+    <a href="{% url 'shop:all_product'%}">All Product</a>  |
+    <a href="{% url 'shop:my_cart'%}">My Cart</a>  |
     {% if request.user.customer %}
-        Welcome {{ request.user.username }} |
-        <a href="{% url 'shop:customer_logout' %}">Logout</a> |
+        Welcome {{ request.user.customer}} |
+        <a href="{% url 'shop:customer_profile' %}">Profile</a>  |
+        <a href="{% url 'shop:customer_logout' %}">Logout</a>  |
+
     {% else %}
-        <a href="{% url 'shop:customer_registration' %}">Register</a> |
-        <a href="{% url 'shop:customer_login' %}">Login</a> |
+        <a href="{% url 'shop:customer_registration' %}">Customer Register</a>  |
+        <a href="{% url 'shop:customer_login' %}"> Customer Login </a>  |
+        <a href="{% url 'shop:admin_login'%}">Admin Login </a>  |
+
     {% endif %}
 
+    
+    
 
 
     {% block content %}
