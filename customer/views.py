@@ -40,7 +40,7 @@ class CustomerRegistrationView(CreateView):
 class CustomerLogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect("shop:customer_login")
+        return redirect("customer:customer_login")
     
 
 class CustomerLoginView(FormView):
@@ -78,7 +78,7 @@ class CustomerProfileView(ShopMixin,TemplateView):
         if request.user.is_authenticated and Customer.objects.filter(user=user).exists():
             print("llog")
         else:
-            return redirect("/customer-login/?next=/customer-profile/")
+            return redirect("customer/customer-login/?next=/customer-profile/")
         print(user)
         return super().dispatch(request, *args, **kwargs)
         
@@ -103,7 +103,7 @@ class OrderDetailsView(DetailView):
             if request.user.customer != order.cart.customer:
                 return redirect("shop:customer_profile")
         else:
-            return redirect("/customer-login/?next=/customer-profile/")
+            return redirect("customer/customer-login/?next=/customer-profile/")
         print(user)
         return super().dispatch(request, *args, **kwargs)
     
