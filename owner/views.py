@@ -18,7 +18,7 @@ class AdminLoginView(FormView):
         uname = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         usr = authenticate(username = uname, password = password)
-        print(usr)
+        print(usr.customer)
         
         if usr is not None and Admin.objects.filter(user=usr).exists():
             login(self.request, usr)

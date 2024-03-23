@@ -13,11 +13,7 @@ urlpatterns = [
     path('empty-cart/', EmptyCartView.as_view(), name="empty_cart"),
      
     path('checkout/', CheckoutView.as_view(), name="checkout"),
-    
-    ###customer####
-    
-    
-    ######admin####
+    path('search/', SearchView.as_view(), name="search" )
     
     
 ]

@@ -4,6 +4,7 @@ from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
 from .models import *
+from django.db.models import Q
 from django.views import View
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
@@ -26,7 +27,7 @@ class ShopMixin(object):
 class HomeView(ShopMixin,TemplateView):
     template_name = "home.html"
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):   
         context = super().get_context_data(**kwargs)
         product_list = Product.objects.all().order_by("-id")
         # print(product_list)
@@ -197,9 +198,26 @@ class CheckoutView(ShopMixin,CreateView):
             return redirect("shop:home")
         return super().form_valid(form)
     
+    
+class SearchView(TemplateView):
+    template_name = "search.html" 
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        kw = self.request.GET.get("keyword")
+        product = Product.objects.filter(Q(title__icontains=kw) | Q(description__icontains=kw))
+        print(product)
+        context["product"]=product
         
+        return context
+
+    
+    
+    
+    
 class AboutView(ShopMixin,TemplateView):
     template_name = "about.html"
+    
 
 
 

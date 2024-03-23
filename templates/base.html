@@ -9,24 +9,37 @@
 </head>
 
 <body>
+    <div class="container pt-3 ">
+        <a href="{% url 'shop:home'%}">Home</a>  |
+        <a href="{% url 'shop:about'%}">About</a>  |
+        <a href="{% url 'shop:all_product'%}">All Product</a>  |
+        <a href="{% url 'shop:my_cart'%}">My Cart</a>  |
+        {% if request.user.customer %}
+            Welcome {{ request.user.customer}} |
+            <a href="{% url 'customer:customer_profile' %}">Profile</a>  |
+            <a href="{% url 'customer:customer_logout' %}">Logout</a>  |
 
-    <a href="{% url 'shop:home'%}">Home</a>  |
-    <a href="{% url 'shop:about'%}">About</a>  |
-    <a href="{% url 'shop:all_product'%}">All Product</a>  |
-    <a href="{% url 'shop:my_cart'%}">My Cart</a>  |
-    {% if request.user.customer %}
-        Welcome {{ request.user.customer}} |
-        <a href="{% url 'customer:customer_profile' %}">Profile</a>  |
-        <a href="{% url 'customer:customer_logout' %}">Logout</a>  |
+        {% else %}
+            <a href="{% url 'customer:customer_registration' %}">Customer Register</a>  |
+            <a href="{% url 'customer:customer_login' %}"> Customer Login </a>  |
+            <a href="{% url 'owner:admin_login'%}">Admin Login </a>  |
 
-    {% else %}
-        <a href="{% url 'customer:customer_registration' %}">Customer Register</a>  |
-        <a href="{% url 'customer:customer_login' %}"> Customer Login </a>  |
-        <a href="{% url 'owner:admin_login'%}">Admin Login </a>  |
+        {% endif %}
+    </div>
 
-    {% endif %}
+    <div class="container pt-3">
+        <div class="row">
+            <div class="col-md-6 ">
+                <form action="{% url 'shop:search' %}" method="GET">
+                    <input type="text" name="keyword" placeholder="Search Product here...." required>
+                    <button>Search Product</button>
+                </form>
 
-    
+
+            </div>
+        </div>
+    </div>
+    <hr>
     
 
 
