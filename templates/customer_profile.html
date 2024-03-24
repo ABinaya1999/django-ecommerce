@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-4">
     <div class="row">
         <div class="col-md-6">
             <h3>My Profile</h3>
+            <hr>
             <p><span class="font-weight-bold">Name: </span> {{customer.full_name}} </p>
             <p><span class="font-weight-bold">Username: </span> {{customer.user.username}} </p>
             <p><span class="font-weight-bold">Email: </span> {{customer.user.email}} </p>
@@ -15,11 +16,11 @@
             <h3>Order histroy</h3>
             {% comment %} {% for order in orders %} {% endcomment %}
             <hr>
-            <table class="table">
-                <thead>
+            <table class="table table-striped">
+                <thead class="thead-dark">
                     <tr>
                         <th>SN.</th>
-                        <th>Order ID</th>
+                        <th class="w-25">Order ID</th>
                         <th>Amount</th>
                         <th>Ordered</th>
                         <th>Status</th>
@@ -29,7 +30,7 @@
                     {% for ord in orders %}
                     <tr>
                         <td><a href="{% url 'customer:order_details' ord.id%}">{{forloop.counter}}</a></td>
-                        <td>{{ord.id}}</td>
+                        <td>#{{ord.id}}</td>
                         <td>{{ord.total}}</td>
                         <td>{{ord.created_at}}</td>
                         <td>{{ord.order_status}}</td>

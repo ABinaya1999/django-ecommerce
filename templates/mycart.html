@@ -3,12 +3,13 @@
 {% block title %}My Cart{% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container mt-4">
     
-    <div class="row">
+    <div class="row ">
     
-        <div class="col-md-9">
-            <h1> Items in my cart </h1>
+        <div class="col-md-12">
+            <h1 class="text-center"> Items in my cart </h1>
+           
             <table class ="table">
                 <thead>
                     <tr>
@@ -38,7 +39,7 @@
                         </td>
                     </tr>
                     {% endfor %}
-
+                    {% if cart.cartproduct_set%}
                     <tr>
                         <th colspan='4'class="text-right">Total</th>
                         <th>Rs. {{cart.total}}</th>
@@ -48,11 +49,13 @@
 
 
                     </tr>
-                    {% if cart.cartproduct_set.all%}
                     <tr>
                         <th><a href="{% url 'shop:checkout'%}" class="btn btn-info">CheckOut</a></th>
                     </tr>
-                    {% endif %}  
+                    {% else %}
+                    <h2><a href="{%url 'shop:home' %}">Add Items first</a></h2>
+                    {% endif %}
+                    
                 </tbody>
             </table>
 

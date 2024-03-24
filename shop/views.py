@@ -9,6 +9,7 @@ from django.views import View
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 # Create your views here.
 
 class ShopMixin(object):
@@ -30,9 +31,10 @@ class HomeView(ShopMixin,TemplateView):
     def get_context_data(self, **kwargs):   
         context = super().get_context_data(**kwargs)
         product_list = Product.objects.all().order_by("-id")
-        # print(product_list)
+        paginator = Paginator(product_list, 6)
+        page_number = self.request.GET.get("page")
+        product_list = paginator.get_page(page_number)
         context["product_list"] = product_list
-        print(self.request.user)
         return context
 
     
@@ -60,11 +62,8 @@ class ProductDetailView(ShopMixin,TemplateView):
   
   
 class AddToCartView(ShopMixin,TemplateView):
-    template_name = "add_to_cart.html"
     
-    
-    def get_context_data(self, **kwargs: Any):
-        context = super().get_context_data(**kwargs)
+    def get(self,request,*args, **kwargs):
         product_id = self.kwargs['pro_id']
         product_obj = Product.objects.get(id=product_id)
         cart_id = self.request.session.get('cart_id', None)
@@ -99,7 +98,7 @@ class AddToCartView(ShopMixin,TemplateView):
 
             
         
-        return context
+        return redirect("shop:home")
         
 
 class MyCartView(ShopMixin,TemplateView):
