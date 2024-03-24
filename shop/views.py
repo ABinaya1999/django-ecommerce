@@ -31,7 +31,7 @@ class HomeView(ShopMixin,TemplateView):
     def get_context_data(self, **kwargs):   
         context = super().get_context_data(**kwargs)
         product_list = Product.objects.all().order_by("-id")
-        paginator = Paginator(product_list, 6)
+        paginator = Paginator(product_list, 3)
         page_number = self.request.GET.get("page")
         product_list = paginator.get_page(page_number)
         context["product_list"] = product_list
@@ -43,7 +43,11 @@ class AllProductView(ShopMixin,TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["categories"] = Category.objects.all()
+        category_list = Category.objects.all()
+        paginator = Paginator(category_list, 1)
+        page_number = self.request.GET.get("page")
+        category_list = paginator.get_page(page_number)
+        context["category_list"] = category_list
         return context
     
     
