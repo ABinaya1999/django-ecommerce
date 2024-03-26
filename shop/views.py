@@ -1,5 +1,5 @@
 from typing import Any
-from django.http import HttpRequest
+from django.http import HttpRequest, JsonResponse
 from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, CreateView, FormView, DetailView, ListView
@@ -8,8 +8,9 @@ from django.db.models import Q
 from django.views import View
 from .forms import *
 from django.contrib.auth import authenticate, login, logout
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
+from django.contrib import messages
 # Create your views here.
 
 class ShopMixin(object):
@@ -101,8 +102,20 @@ class AddToCartView(ShopMixin,TemplateView):
             cart_obj.save()
 
             
+        messages.success(self.request, 'Product added to the cart!')
         
-        return redirect("shop:home")
+        if request.META.get('HTTP_REFERER') and '/all-product/' in request.META.get('HTTP_REFERER'):
+        # Redirect back to the product detail page
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+        elif request.META.get('HTTP_REFERER') and '/product/' in request.META.get('HTTP_REFERER'):
+        # Redirect back to the product detail page
+            print(request.META.get('HTTP_REFERER'))
+            return redirect(request.META.get('HTTP_REFERER'))
+        
+        else:
+
+            return redirect("shop:home")
         
 
 class MyCartView(ShopMixin,TemplateView):
@@ -196,7 +209,12 @@ class CheckoutView(ShopMixin,CreateView):
             form.instance.discount = 0
             form.instance.total = cart_obj.total
             form.instance.order_status = "Order Received"
+            method = form.cleaned_data.get("payment_method")
+            order = form.save()
+            if method == "Khalti":
+                return redirect(reverse("shop:khalti_request")+ "?o_id=" + str(order.id))
             del self.request.session['cart_id']
+            
         else:
             return redirect("shop:home")
         return super().form_valid(form)
@@ -214,9 +232,25 @@ class SearchView(TemplateView):
         
         return context
 
+
+
+class KhaltiRequestView(View):
+    
+    def get(self, request,*args, **kwargs):
+        id = request.GET.get("o_id")
+        
+        order = Order.objects.get(id=id)
+        context = {"order":order}
+        
+        return render(request, "khaltirequest.html", context)
     
     
+class KhaltiVerifyView(View):
     
+    def get(self, request, *args, **kwargs):
+        data = {}
+        return JsonResponse(data)
+        
     
 class AboutView(ShopMixin,TemplateView):
     template_name = "about.html"

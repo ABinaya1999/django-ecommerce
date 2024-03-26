@@ -64,6 +64,7 @@ class CustomerLoginView(FormView):
         if 'next' in self.request.GET:
             print(self.request.GET)
             next_url = self.request.GET.get("next")
+            print(next_url)
             return next_url
         else:
             return self.success_url

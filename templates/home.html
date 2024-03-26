@@ -6,6 +6,19 @@
 <div class="container mt-4">
 
     <h1 class="text-center font-weight-bold">Welcome to our ecommerce website. </h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Success!</strong> {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div> 
+        {% endfor %}
+    </ul>
+    {% endif %}
+
     
       <div class="pagination">
         <span class="step-links">
