@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator
 from django.contrib import messages
+import requests
 # Create your views here.
 
 class ShopMixin(object):
@@ -105,11 +106,11 @@ class AddToCartView(ShopMixin,TemplateView):
         messages.success(self.request, 'Product added to the cart!')
         
         if request.META.get('HTTP_REFERER') and '/all-product/' in request.META.get('HTTP_REFERER'):
-        # Redirect back to the product detail page
+        
             return redirect(request.META.get('HTTP_REFERER'))
         
         elif request.META.get('HTTP_REFERER') and '/product/' in request.META.get('HTTP_REFERER'):
-        # Redirect back to the product detail page
+     
             print(request.META.get('HTTP_REFERER'))
             return redirect(request.META.get('HTTP_REFERER'))
         
@@ -211,9 +212,11 @@ class CheckoutView(ShopMixin,CreateView):
             form.instance.order_status = "Order Received"
             method = form.cleaned_data.get("payment_method")
             order = form.save()
-            if method == "Khalti":
-                return redirect(reverse("shop:khalti_request")+ "?o_id=" + str(order.id))
+            print(order)
             del self.request.session['cart_id']
+            if method == "Esewa":
+                return redirect(reverse("shop:esewa_request") + "?o_id=" + str(order.id))
+            
             
         else:
             return redirect("shop:home")
@@ -233,24 +236,46 @@ class SearchView(TemplateView):
         return context
 
 
-
-class KhaltiRequestView(View):
-    
-    def get(self, request,*args, **kwargs):
-        id = request.GET.get("o_id")
-        
-        order = Order.objects.get(id=id)
-        context = {"order":order}
-        
-        return render(request, "khaltirequest.html", context)
-    
-    
-class KhaltiVerifyView(View):
+class EsewaRequestView(View):
     
     def get(self, request, *args, **kwargs):
-        data = {}
-        return JsonResponse(data)
+        order_id = request.GET.get("o_id")
+        order = Order.objects.get(id= order_id)
+        context = {"order": order}
+        return render(request, "esewa_request.html", context)
+    
+
+class EsewaVerifyView(View):
+    
+    def get(self, request, *args, **kwargs):
+        import xml.etree.ElementTree as ET
+        oid = request.GET.get("oid")
+        amt = request.GET.get("amt")
+        refId = request.GET.get("refId")
+        url = "https://uat.esewa.com.np/epay/transrec"
+        d = {
+            'amt': amt,
+            'scd': 'epay_payment',
+            'rid': refId,
+            'pid': oid,
+        }
+        resp = requests.post(url, d)
+        root = ET.fromstring(resp.content)
+        status = root[0].text.strip()
+        o_id = oid.split("_")[1]
+        order_obj = Order.objects.get(id=int(o_id))
+        if status == "Success":
+            order_obj.payment_method = True
+            order_obj.save()
+            return redirect("/")
+        else:
+            
+            return redirect("/esewa-request/" + "?o_id" + o_id)
         
+        return redirect("/")
+    
+    
+    
     
 class AboutView(ShopMixin,TemplateView):
     template_name = "about.html"

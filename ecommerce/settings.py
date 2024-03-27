@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'shop',
     'customer',
-    'owner'
+    'owner',
+    'fontawesomefree'
 ]
 
 MIDDLEWARE = [

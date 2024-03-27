@@ -15,8 +15,10 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name="checkout"),
     path('search/', SearchView.as_view(), name="search" ),
     
-    path('khalti-request/', KhaltiRequestView.as_view(), name="khalti_request"),
-    path('khalti-verify/', KhaltiVerifyView.as_view(), name="khalti_verify")
+    path('esewa-request/', EsewaRequestView.as_view(), name="esewa_request"),
+    path('esewa-verify/', EsewaVerifyView.as_view(), name="esewa_verify"),
+    # path('search/', SearchView.as_view(), name="search" ),
+    
     
     
     
